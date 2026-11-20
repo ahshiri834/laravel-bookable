@@ -1,0 +1,32 @@
+{
+    "name": "ahshiri834/laravel-bookable",
+    "description": "Domain-neutral availability, safe reservations and seasonal pricing for any Eloquent model.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["laravel", "booking", "reservation", "availability", "pricing"],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0|^12.0",
+        "illuminate/database": "^11.0|^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "phpunit/phpunit": "^10.5|^11.0"
+    },
+    "autoload": {
+        "psr-4": { "Ahshiri\\Bookable\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Ahshiri\\Bookable\\Tests\\": "tests/" }
+    },
+    "extra": {
+        "laravel": {
+            "providers": ["Ahshiri\\Bookable\\BookableServiceProvider"]
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
