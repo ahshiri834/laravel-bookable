@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.2 - 2026-11-21
+
+Maintenance release, no code changes. Repository history was cleaned up and the tags re-created, so this release has a fresh, stable reference for Composer/Packagist.
+
 ## v0.1.1 - 2026-11-20
 
 Quality release, no behaviour changes.
