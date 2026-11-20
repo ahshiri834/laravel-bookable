@@ -70,7 +70,7 @@ Date ranges are half-open: check-in day inclusive, check-out day exclusive, so a
 - [x] **M3** Pricing engine (seasonal and weekday rates, price breakdown, price snapshot on hold)
 - [x] **M4** Real multi-process concurrency test on MySQL, run in CI (GitHub Actions)
 - [x] Static analysis (PHPStan level 6 via Larastan) and code style (Pint) enforced in CI
-- [ ] Listed on Packagist
+- [x] Listed on Packagist: `composer require ahshiri834/laravel-bookable`
 - [ ] **M5** v0.1.0 on Packagist
 
 ## Testing
