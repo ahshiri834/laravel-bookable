@@ -14,6 +14,8 @@ Reservation code keeps getting rewritten, and the hard parts go wrong in product
 
 This package solves those once, is domain-neutral, and is tested.
 
+Requires PHP 8.2+ and Laravel 12. (Laravel 11 is not supported: every 11.x release is currently blocked by Composer's security-advisory check.)
+
 ## Install
 
 ```bash
@@ -66,7 +68,8 @@ Date ranges are half-open: check-in day inclusive, check-out day exclusive, so a
 - [x] **M1** Availability engine (peak usage per night), migrations, `IsBookable` trait
 - [x] **M2** `hold` / `confirm` / `cancel`, per-bookable locking, events, expiry command (`php artisan bookable:release-expired`)
 - [x] **M3** Pricing engine (seasonal and weekday rates, price breakdown, price snapshot on hold)
-- [ ] **M4** Real concurrency test on MySQL in CI (written, pending first green CI run), static analysis
+- [x] **M4** Real multi-process concurrency test on MySQL, run in CI (GitHub Actions)
+- [ ] Static analysis (PHPStan) and code style (Pint)
 - [ ] **M5** v0.1.0 on Packagist
 
 ## Testing
