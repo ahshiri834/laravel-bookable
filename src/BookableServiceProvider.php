@@ -10,6 +10,7 @@ class BookableServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/bookable.php', 'bookable');
         $this->app->singleton(AvailabilityEngine::class);
+        $this->app->singleton(BookingManager::class);
     }
 
     public function boot(): void
@@ -17,6 +18,8 @@ class BookableServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         if ($this->app->runningInConsole()) {
+            $this->commands([Console\ReleaseExpiredCommand::class]);
+
             $this->publishes([__DIR__.'/../config/bookable.php' => config_path('bookable.php')], 'bookable-config');
         }
     }

@@ -2,6 +2,7 @@
 
 namespace Ahshiri\Bookable\Models;
 
+use Ahshiri\Bookable\BookingManager;
 use Ahshiri\Bookable\Enums\BookingStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -32,6 +33,16 @@ class Booking extends Model
     public function owner(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function confirm(): static
+    {
+        return app(BookingManager::class)->confirm($this);
+    }
+
+    public function cancel(): static
+    {
+        return app(BookingManager::class)->cancel($this);
     }
 
     /** Bookings that currently consume capacity: confirmed, or held and not yet expired. */

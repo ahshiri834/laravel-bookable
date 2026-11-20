@@ -3,9 +3,11 @@
 namespace Ahshiri\Bookable\Concerns;
 
 use Ahshiri\Bookable\AvailabilityEngine;
+use Ahshiri\Bookable\BookingManager;
 use Ahshiri\Bookable\Models\Booking;
 use Ahshiri\Bookable\Support\DateRange;
 use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
@@ -27,6 +29,17 @@ trait IsBookable
     {
         return app(AvailabilityEngine::class)
             ->availableUnits($this, $this->bookableCapacity(), new DateRange($from, $to));
+    }
+
+    public function hold(
+        CarbonInterface|string $from,
+        CarbonInterface|string $to,
+        int $quantity = 1,
+        ?int $ttl = null,
+        ?Model $owner = null,
+        ?array $meta = null,
+    ): Booking {
+        return app(BookingManager::class)->hold($this, $from, $to, $quantity, $ttl, $owner, $meta);
     }
 
     public function isAvailable(CarbonInterface|string $from, CarbonInterface|string $to, int $quantity = 1): bool
