@@ -45,7 +45,7 @@ $booking->cancel();    // frees the units
 
 Holds that are never confirmed lapse on their own; schedule `bookable:release-expired` every minute to mark them `expired` and fire `BookingExpired`. Events: `BookingHeld`, `BookingConfirmed`, `BookingCancelled`, `BookingExpired`.
 
-Concurrent `hold()` calls for the same model are serialized with a row lock (`lock = database`) or a cache lock (`lock = cache`, e.g. Redis), so the last unit can only be taken once. *A multi-process MySQL test proving this is planned for M4.*
+Concurrent `hold()` calls for the same model are serialized with a row lock (`lock = database`) or a cache lock (`lock = cache`, e.g. Redis), so the last unit can only be taken once. A multi-process MySQL test in CI verifies this.
 
 ### Pricing
 
@@ -71,7 +71,7 @@ Date ranges are half-open: check-in day inclusive, check-out day exclusive, so a
 - [x] **M4** Real multi-process concurrency test on MySQL, run in CI (GitHub Actions)
 - [x] Static analysis (PHPStan level 6 via Larastan) and code style (Pint) enforced in CI
 - [x] Listed on Packagist: `composer require ahshiri834/laravel-bookable`
-- [ ] **M5** v0.1.0 on Packagist
+- [x] **M5** v0.1.x released on Packagist
 
 ## Testing
 
