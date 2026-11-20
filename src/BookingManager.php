@@ -8,7 +8,9 @@ use Ahshiri\Bookable\Events\BookingConfirmed;
 use Ahshiri\Bookable\Events\BookingExpired;
 use Ahshiri\Bookable\Events\BookingHeld;
 use Ahshiri\Bookable\Exceptions\BookingStateException;
+use Ahshiri\Bookable\Exceptions\NoRateException;
 use Ahshiri\Bookable\Exceptions\NotAvailableException;
+use Ahshiri\Bookable\Pricing\PriceCalculator;
 use Ahshiri\Bookable\Models\Booking;
 use Ahshiri\Bookable\Support\DateRange;
 use Carbon\CarbonInterface;
@@ -18,7 +20,10 @@ use Illuminate\Support\Facades\DB;
 
 class BookingManager
 {
-    public function __construct(private readonly AvailabilityEngine $engine) {}
+    public function __construct(
+        private readonly AvailabilityEngine $engine,
+        private readonly PriceCalculator $pricing,
+    ) {}
 
     /**
      * Place a temporary hold on `quantity` units. Writers are serialized per bookable so two
@@ -49,7 +54,15 @@ class BookingManager
                 throw new NotAvailableException('Not enough units available for the requested dates.');
             }
 
+            // Price is snapshotted at hold time; stays null when no rate/default applies.
+            try {
+                $total = $this->pricing->quote($bookable, $range, $quantity)->total;
+            } catch (NoRateException) {
+                $total = null;
+            }
+
             return Booking::create([
+                'total' => $total,
                 'bookable_type' => $bookable->getMorphClass(),
                 'bookable_id' => $bookable->getKey(),
                 'owner_type' => $owner?->getMorphClass(),

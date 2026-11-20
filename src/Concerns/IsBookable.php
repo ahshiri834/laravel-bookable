@@ -5,6 +5,9 @@ namespace Ahshiri\Bookable\Concerns;
 use Ahshiri\Bookable\AvailabilityEngine;
 use Ahshiri\Bookable\BookingManager;
 use Ahshiri\Bookable\Models\Booking;
+use Ahshiri\Bookable\Models\Rate;
+use Ahshiri\Bookable\Pricing\PriceCalculator;
+use Ahshiri\Bookable\Pricing\Quote;
 use Ahshiri\Bookable\Support\DateRange;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +21,16 @@ trait IsBookable
     public function bookings(): MorphMany
     {
         return $this->morphMany(Booking::class, 'bookable');
+    }
+
+    public function rates(): MorphMany
+    {
+        return $this->morphMany(Rate::class, 'bookable');
+    }
+
+    public function quote(CarbonInterface|string $from, CarbonInterface|string $to, int $quantity = 1): Quote
+    {
+        return app(PriceCalculator::class)->quote($this, new DateRange($from, $to), $quantity);
     }
 
     public function bookableCapacity(): int

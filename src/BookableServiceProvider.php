@@ -10,6 +10,7 @@ class BookableServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/bookable.php', 'bookable');
         $this->app->singleton(AvailabilityEngine::class);
+        $this->app->singleton(Pricing\PriceCalculator::class);
         $this->app->singleton(BookingManager::class);
     }
 
