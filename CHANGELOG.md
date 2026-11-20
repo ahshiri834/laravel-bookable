@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.1 - 2026-11-20
+
+Quality release, no behaviour changes.
+
+- Added PHPStan (Larastan level 6) and Pint, both enforced in CI
+- `Booking::confirm()` / `cancel()` now declare the correct `self` return type
+- Typed model properties, relations and query scopes (docblocks and parameter types)
+- Clearer default-price fallback in the price calculator
+
 ## v0.1.0 - 2026-11-20
 
 First public release.

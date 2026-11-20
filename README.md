@@ -2,7 +2,7 @@
 
 Availability, safe reservations and seasonal pricing for **any Eloquent model**: hotel rooms, tours, rentals, tables.
 
-> **Status: v0.1.0, early release.** The API may still change before 1.0. See the [specification](docs/SPEC.md) and the roadmap below.
+> **Status: v0.1.1, early release.** The API may still change before 1.0. See the [specification](docs/SPEC.md) and the roadmap below.
 
 ## Why
 
