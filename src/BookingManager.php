@@ -10,8 +10,8 @@ use Ahshiri\Bookable\Events\BookingHeld;
 use Ahshiri\Bookable\Exceptions\BookingStateException;
 use Ahshiri\Bookable\Exceptions\NoRateException;
 use Ahshiri\Bookable\Exceptions\NotAvailableException;
-use Ahshiri\Bookable\Pricing\PriceCalculator;
 use Ahshiri\Bookable\Models\Booking;
+use Ahshiri\Bookable\Pricing\PriceCalculator;
 use Ahshiri\Bookable\Support\DateRange;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +28,8 @@ class BookingManager
     /**
      * Place a temporary hold on `quantity` units. Writers are serialized per bookable so two
      * concurrent requests can never both take the last unit.
+     *
+     * @param  array<string, mixed>|null  $meta
      */
     public function hold(
         Model $bookable,
@@ -147,13 +149,20 @@ class BookingManager
         return $count;
     }
 
-    /** Run `$callback` while holding an exclusive lock for this bookable. */
+    /**
+     * Run `$callback` while holding an exclusive lock for this bookable.
+     *
+     * @template TReturn
+     *
+     * @param  callable(): TReturn  $callback
+     * @return TReturn
+     */
     private function serialized(Model $bookable, callable $callback): mixed
     {
         if (config('bookable.lock', 'database') === 'cache') {
             $key = 'bookable:'.$bookable->getMorphClass().':'.$bookable->getKey();
 
-            return Cache::lock($key, 10)->block(5, fn () => DB::transaction($callback));
+            return Cache::lock($key, 10)->block(5, fn () => DB::transaction(fn () => $callback()));
         }
 
         return DB::transaction(function () use ($bookable, $callback) {

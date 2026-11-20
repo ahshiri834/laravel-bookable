@@ -5,6 +5,7 @@ namespace Ahshiri\Bookable\Pricing;
 use Ahshiri\Bookable\Exceptions\NoRateException;
 use Ahshiri\Bookable\Models\Rate;
 use Ahshiri\Bookable\Support\DateRange;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -32,7 +33,7 @@ class PriceCalculator
                 throw new NoRateException("No rate covers the night of {$night->toDateString()}.");
             }
 
-            $unit = $rate?->price ?? (int) $default;
+            $unit = $rate !== null ? $rate->price : (int) $default;
             $amount = $unit * $quantity;
             $total += $amount;
 
@@ -43,7 +44,7 @@ class PriceCalculator
     }
 
     /** @param  Collection<int, Rate>  $rates */
-    private function bestRate(Collection $rates, $night): ?Rate
+    private function bestRate(Collection $rates, CarbonInterface $night): ?Rate
     {
         return $rates
             ->filter(fn (Rate $rate) => $rate->appliesTo($night))

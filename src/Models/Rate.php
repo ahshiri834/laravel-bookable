@@ -2,10 +2,21 @@
 
 namespace Ahshiri\Bookable\Models;
 
+use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+/**
+ * @property int $id
+ * @property string $bookable_type
+ * @property int $bookable_id
+ * @property int $price
+ * @property CarbonImmutable|null $starts_on
+ * @property CarbonImmutable|null $ends_on
+ * @property array<int, int>|null $weekdays
+ * @property int $priority
+ */
 class Rate extends Model
 {
     protected $table = 'booking_rates';
@@ -20,6 +31,7 @@ class Rate extends Model
         'weekdays' => 'array',
     ];
 
+    /** @return MorphTo<Model, $this> */
     public function bookable(): MorphTo
     {
         return $this->morphTo();

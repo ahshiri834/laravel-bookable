@@ -69,7 +69,8 @@ Date ranges are half-open: check-in day inclusive, check-out day exclusive, so a
 - [x] **M2** `hold` / `confirm` / `cancel`, per-bookable locking, events, expiry command (`php artisan bookable:release-expired`)
 - [x] **M3** Pricing engine (seasonal and weekday rates, price breakdown, price snapshot on hold)
 - [x] **M4** Real multi-process concurrency test on MySQL, run in CI (GitHub Actions)
-- [ ] Static analysis (PHPStan) and code style (Pint)
+- [x] Static analysis (PHPStan level 6 via Larastan) and code style (Pint) enforced in CI
+- [ ] Listed on Packagist
 - [ ] **M5** v0.1.0 on Packagist
 
 ## Testing

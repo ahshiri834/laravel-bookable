@@ -25,6 +25,21 @@ jobs:
       - name: Run tests
         run: vendor/bin/phpunit
 
+  quality:
+    name: Static analysis and code style
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - run: composer update --prefer-dist --no-interaction --no-progress
+      - name: Code style (Pint)
+        run: vendor/bin/pint --test
+      - name: Static analysis (PHPStan)
+        run: vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+
   mysql:
     name: MySQL (concurrency)
     runs-on: ubuntu-latest

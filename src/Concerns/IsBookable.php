@@ -18,11 +18,13 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  */
 trait IsBookable
 {
+    /** @return MorphMany<Booking, $this> */
     public function bookings(): MorphMany
     {
         return $this->morphMany(Booking::class, 'bookable');
     }
 
+    /** @return MorphMany<Rate, $this> */
     public function rates(): MorphMany
     {
         return $this->morphMany(Rate::class, 'bookable');
@@ -44,6 +46,7 @@ trait IsBookable
             ->availableUnits($this, $this->bookableCapacity(), new DateRange($from, $to));
     }
 
+    /** @param  array<string, mixed>|null  $meta */
     public function hold(
         CarbonInterface|string $from,
         CarbonInterface|string $to,
